@@ -17,7 +17,7 @@ The software was validated on:
   - **arm64** Python 3.9 - 3.12 for the OpenVINO Runtime Python API, Development tools (Model Optimizer, POT and others):
   ```sh
   % # let's have a look what python versions are available in brew
-  % brew search python
+  brew search python
   % # select preferred version of python based on available ones, e.g. 3.11
   % brew install python@3.11
   ```
@@ -25,25 +25,25 @@ The software was validated on:
 
 - Clang compiler and other command line tools from Xcode 10.1 or higher:
   ```sh
-  % xcode-select --install
+  xcode-select --install
   ```
 - [CMake](https://cmake.org/download/) 3.13 or higher and other build dependencies:
   ```sh
-  % brew install cmake scons fdupes git-lfs ninja
+  brew install cmake scons fdupes git-lfs ninja
   ```
 - (arm64 only) Product and samples dependencies:
   ```sh
-  % brew install tbb pugixml flatbuffers snappy protobuf
+  brew install tbb pugixml flatbuffers snappy protobuf
   ```
 - Additional `pip` dependencies to build OpenVINO Runtime Python API, Development tools (Model Optimizer, POT and others):
   ```sh
   % # update pip and setuptools to newer versions
-  % python3 -m pip install -U pip
-  % python3 -m pip install -r <openvino source tree>/src/bindings/python/requirements.txt
+  python3 -m pip install -U pip
+  python3 -m pip install -r <openvino source tree>/src/bindings/python/requirements.txt
   ```
   Additional install requirements (after OpenVINO repo clone) in order to build OpenVINO Python API and Development tools as wheel packages:
   ```sh
-  % python3 -m pip install -r <openvino source tree>/src/bindings/python/wheel/requirements-dev.txt
+  python3 -m pip install -r <openvino source tree>/src/bindings/python/wheel/requirements-dev.txt
   ```
 
 ## How to build
