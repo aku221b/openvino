@@ -122,7 +122,7 @@ void InferRequest::set_input_tensor(size_t idx, const Tensor& tensor) {
                     int batch_val = tensor.get_shape().at(batch_idx);
                     OPENVINO_ASSERT(batch_val > 0,
                                 "Batch size must be a positive value for tensor '",
-                                tensor,
+                                input,
                                 "', but has got: ",
                                 batch_val); 
                 }
@@ -149,8 +149,8 @@ void InferRequest::set_input_tensor(const Tensor& tensor) {
                 if(batch_dim.is_dynamic()){
                     int batch_val = tensor.get_shape().at(batch_idx);
                     OPENVINO_ASSERT(batch_val > 0,
-                                "Batch size must be a positive value for tensor '",
-                                tensor,
+                                "Batch size must be a positive value for input '",
+                                input,
                                 "', but has got: ",
                                 batch_val); 
                 }
@@ -182,7 +182,7 @@ void InferRequest::set_input_tensors(size_t idx, const std::vector<Tensor>& tens
                           int batch_val = tensors[i].get_shape().at(batch_idx);
                     OPENVINO_ASSERT(batch_val > 0,
                                 "Batch size must be a positive value for tensor '",
-                                tensors[i],
+                                input,
                                 "', but has got: ",
                                 batch_val); 
                     }
@@ -214,7 +214,7 @@ void InferRequest::set_input_tensors(const std::vector<Tensor>& tensors) {
                           int batch_val = tensors[i].get_shape().at(batch_idx);
                         OPENVINO_ASSERT(batch_val > 0,
                                     "Batch size must be a positive value for tensor '",
-                                    tensors[i],
+                                    input,
                                     "', but has got: ",
                                     batch_val); 
                         }
