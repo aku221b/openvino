@@ -184,7 +184,22 @@ std::shared_ptr<ov::ICompiledModel> Plugin::compile_model(const std::shared_ptr<
     std::string device_id = get_device_id(orig_config);
 
     auto context = get_default_context(device_id);
-
+    for (const auto& input : model->inputs()) {
+        const auto& p_shape = input.get_partial_shape();
+        const auto& layout = ov::layout::get_layout(input);
+        if (p_shape.rank().is_static() && p_shape.rank().get_length() != 0 && ov::layout::has_batch(layout)) {
+            const auto batch_idx = ov::layout::batch_idx(layout);
+            const auto& batch_dim = p_shape[batch_idx];
+            if(batch_dim.is_static()){
+                OPENVINO_ASSERT(batch_dim.get_length() > 0,
+                        "Batch size must be a positive value for input '",
+                        input,
+                        "', but has got: ",
+                        batch_dim.get_length());
+            }
+          
+        }
+    }
     OPENVINO_ASSERT(m_configs_map.find(device_id) != m_configs_map.end(), "[GPU] compile_model: Couldn't find config for GPU with id ", device_id);
 
     ExecutionConfig config = m_configs_map.at(device_id);
@@ -205,7 +220,22 @@ std::shared_ptr<ov::ICompiledModel> Plugin::compile_model(const std::shared_ptr<
                                                           const ov::SoPtr<ov::IRemoteContext>& context) const {
     auto context_impl = get_context_impl(context);
     auto device_id = ov::DeviceIDParser{context_impl->get_device_name()}.get_device_id();
-
+    for (const auto& input : model->inputs()) {
+        const auto& p_shape = input.get_partial_shape();
+        const auto& layout = ov::layout::get_layout(input);
+        if (p_shape.rank().is_static() && p_shape.rank().get_length() != 0 && ov::layout::has_batch(layout)) {
+            const auto batch_idx = ov::layout::batch_idx(layout);
+            const auto& batch_dim = p_shape[batch_idx];
+            if(batch_dim.is_static()){
+                 OPENVINO_ASSERT(batch_dim.get_length() > 0,
+                            "Batch size must be a positive value for input '",
+                            input,
+                            "', but has got: ",
+                            batch_dim.get_length());
+            }
+           
+        }
+    }
     OPENVINO_ASSERT(m_configs_map.find(device_id) != m_configs_map.end(), "[GPU] LoadExeNetworkImpl: Couldn't find config for GPU with id ", device_id);
 
     ExecutionConfig config = m_configs_map.at(device_id);
